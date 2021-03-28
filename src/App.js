@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import DateSelect from "./components/dateSelect";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Status from "./components/Status";
+
+const electron = window.require("electron");
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-app">
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <DateSelect />
+            <Link to="/Status">Status</Link>
+          </Route>
+          <Route path="/Status">
+            <Status />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
