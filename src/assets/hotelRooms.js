@@ -36,4 +36,5 @@ const hotelRooms = {
   r135: [[0], [0]],
   r136: [[0], [0]],
 };
+
 export default hotelRooms;

@@ -1,7 +1,9 @@
 import "../App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAction } from "../assets/globalState";
 import DatePicker from "react-date-picker";
-import hotelRooms from "./hotelRooms";
+import hotelRooms from "../assets/hotelRooms";
 import Swal from "sweetalert2";
 import {
   stayLength,
@@ -14,6 +16,10 @@ import {
 import DisplayTomorrow from "./displayTomorrow";
 
 const { ipcRenderer } = window.require("electron");
+
+const accessState = (state) => state;
+
+const globalToShow = useSelector(accessState);
 
 class DateSelect extends React.Component {
   constructor() {
@@ -137,6 +143,9 @@ class DateSelect extends React.Component {
           </form>
         </div>
         <DisplayTomorrow tomorrowChange={this.state.tomorrowsChanges} />
+        <div>
+          <text>{}</text>
+        </div>
       </div>
     );
   }
