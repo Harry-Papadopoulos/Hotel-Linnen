@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { tomorrowString } from "../assets/logic";
+import { useSelector } from "react-redux";
+import { nextDaysSheetChanges, nextDaysTowelChanges } from "../assets/logic";
 
-export default function DisplayTomorrow(props) {
+export default function DisplayTomorrow() {
+  const update = useSelector((state) => state.update);
   const [sheets, setSheets] = useState("");
   const [towels, setTowels] = useState("");
 
   useEffect(() => {
-    let roomChanges = tomorrowString(props.tomorrowChange);
-    setSheets(roomChanges[0]);
-    setTowels(roomChanges[1]);
-  });
+    setSheets(nextDaysSheetChanges(update));
+    setTowels(nextDaysTowelChanges(update));
+  }, [update]);
 
   return (
     <div id="tomorrow-container">
-      <text className="titles">TOMORROW'S LINNEN CHANGES:</text>
+      <p className="titles">TOMORROW'S LINNEN CHANGES:</p>
       <div id="tomorrow">
-        <text>
-          {sheets}
+        <p>
+          SHEETS: {sheets}
           {"\n"}
-        </text>
-        <text>{towels}</text>
+        </p>
+        <p>TOWELS: {towels}</p>
       </div>
     </div>
   );

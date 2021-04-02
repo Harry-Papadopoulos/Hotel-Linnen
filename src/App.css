@@ -1,32 +1,119 @@
-.picker-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 40px;
+/* GLOBAL STYLES */
+
+.titles {
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 16px;
 }
 
-.date-picker {
-  display: inline-block;
+.buttons {
+  background-color: #939eb9;
 }
 
-#room-form {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.inputs {
+  width: 100px;
+  height: 18px;
+  border: 1px solid black;
 }
 
-.main-app {
-  margin-top: 10px;
-}
+/* DATE SELECTION STYLES */
 
 #main-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
+
+#add-delete {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-left: 2.5%;
+  margin-bottom: -3%;
+  width: 100%;
+}
+
+#add-room-container h2 {
+  width: 70%;
+}
+
+.selection-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 10px;
+  align-items: center;
+  /* align-self: flex-start; */
+}
+
+.date-picker {
+  display: inline-block;
+  margin-right: 35px;
+}
+
+#room-form {
+  display: inline-block;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  margin-bottom: 18px;
+  margin-top: 15px;
+}
+
+#delete-display-container {
+  width: 30%;
+}
+
+.delete-container {
+  margin: 40px 0 0 0;
+}
+
+#overide-container {
+  margin-top: 20px;
+  margin-left: 10%;
+  flex-direction: row;
+  height: 30%;
+  width: 50%;
+}
+
+#overide-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#overide-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+#overide-form select {
+  margin-bottom: 4px;
+}
+
+#overide-buttons button {
+  margin: 20px 20px 0 0;
+}
+
+.labels {
+  margin-bottom: 5px;
+  margin-top: 7px;
+}
+
+/* DISPLAYING TOMORROW'S CHANGES STYLES */
 
 #tomorrow-container {
   margin-top: 100px;
-  color: green;
   align-self: center;
   width: 80%;
 }
@@ -34,13 +121,52 @@
 #tomorrow {
   display: flex;
   flex-direction: column;
-
   border: 2px solid black;
-
   margin-top: 10px;
+  color: green;
 }
 
-.titles {
-  text-decoration: underline;
+#tomorrow p {
+  padding-left: 10px;
+}
+
+/* DISPLAYING ALL ROOMS STATUS STYLES */
+
+#status-content {
+  padding-left: 20px;
+}
+
+#all-rooms-display {
+  margin: 0 0 20px 20px;
+  line-height: 20px;
+}
+
+#all-rooms-display p {
+  margin-bottom: -18px;
   font-weight: bold;
+}
+
+/* HEADER STYLES */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #939eb9;
+  width: 100%;
+  height: 12%;
+  top: 0;
+}
+
+.links {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  border: 2px solid black;
+  height: 40px;
+  background-color: white;
+  border-radius: 5px;
+  align-content: center;
+  padding: 10px;
 }

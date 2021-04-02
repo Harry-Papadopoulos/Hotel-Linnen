@@ -1,9 +1,13 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAction } from "../assets/globalState";
+import { updateAction, initialLoadAction } from "../assets/globalState";
 import DatePicker from "react-date-picker";
-import hotelRooms from "../assets/hotelRooms";
+import Header from "./Header";
+import Delete from "./DeleteForm";
+import DisplayTomorrow from "./displayTomorrow";
+import ManualOveride from "./ManualOveride";
+
 import Swal from "sweetalert2";
 import {
   stayLength,
@@ -11,70 +15,38 @@ import {
   changeTowels,
   roomKey,
   changes,
-  tomorrowsChanges,
 } from "../assets/logic";
-import DisplayTomorrow from "./displayTomorrow";
 
 const { ipcRenderer } = window.require("electron");
 
-const accessState = (state) => state;
+function DateSelect() {
+  const update = useSelector((state) => state.update);
+  const dispatch = useDispatch();
 
-const globalToShow = useSelector(accessState);
+  const [arrival, setArrival] = useState(new Date());
+  const [departure, setDeparture] = useState(new Date());
+  const [selectedRoom, setSelectedRoom] = useState("");
 
-class DateSelect extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      arrival: new Date(),
-      departure: new Date(),
-      rooms: hotelRooms,
-      selectedRoom: "",
-      tomorrowsChanges: [],
+  function updateAndSave(room, linnenChanges) {
+    return async function (dispatch) {
+      await dispatch(updateAction(room, linnenChanges));
+      return Promise.resolve();
     };
-    this.setArrival = this.setArrival.bind(this);
-    this.setDeparture = this.setDeparture.bind(this);
-    this.selectRoom = this.selectRoom.bind(this);
-    this.calculation = this.calculation.bind(this);
   }
 
-  setArrival(date) {
-    this.setState({ arrival: date });
-  }
-
-  setDeparture(date) {
-    this.setState({ departure: date });
-  }
-
-  selectRoom(event) {
-    this.setState({ selectedRoom: event.target.value });
-    event.preventDefault();
-    return false;
-  }
-
-  async calculation() {
-    if ("101" <= this.state.selectedRoom && this.state.selectedRoom <= "136") {
-      let stay = stayLength(this.state.arrival, this.state.departure);
-      let sheets = changeSheets(this.state.arrival, stay);
-      let towels = changeTowels(this.state.arrival, stay);
+  async function calculation(e) {
+    if ("101" <= selectedRoom && selectedRoom <= "136") {
+      let stay = stayLength(arrival, departure);
+      let sheets = changeSheets(arrival, stay);
+      let towels = changeTowels(arrival, stay);
       let linnenChanges = changes(sheets, towels);
-      let room = roomKey(this.state.selectedRoom);
+      let room = roomKey(selectedRoom);
 
-      await this.setState((prevstate) => ({
-        rooms: {
-          ...prevstate.rooms,
-          [room]: linnenChanges,
-        },
-      }));
+      await dispatch(updateAndSave(room, linnenChanges)).then(() => {
+        console.log("Schedule Changed");
+      });
 
-      let tomorrow = tomorrowsChanges(this.state.rooms);
-      this.setState({ tomorrowsChanges: tomorrow });
-
-      let exportString = JSON.stringify(this.state.rooms);
-
-      ipcRenderer.send("SEND_ROOM_STATE_TO_MAIN", exportString);
-
-      this.setState({ selectedRoom: "" });
+      setSelectedRoom("");
     } else {
       Swal.fire({
         title: "Invalid Room Number",
@@ -84,77 +56,95 @@ class DateSelect extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    await ipcRenderer.on("SEND_ROOM_STATE_TO_RENDERER", (event, data) => {
-      this.setState({ rooms: data });
-      let tomorrow = tomorrowsChanges(data);
-      this.setState({ tomorrowsChanges: tomorrow });
-    });
-  }
+  useEffect(() => {
+    async function initialLoader(dispatch) {
+      await ipcRenderer.on("SEND_ROOM_STATE_TO_RENDERER", (event, data) => {
+        dispatch(initialLoadAction(data));
+      });
+    }
+    initialLoader(dispatch);
+  }, [dispatch]);
 
-  render() {
-    return (
-      <div id="main-container">
-        <div className="picker-container">
-          <div className="date-picker">
-            <text>Arrival Date</text>
-            <div>
-              <DatePicker
-                dayPlaceholder="dd"
-                monthPlaceholder="mm"
-                yearPlaceholder="yyyy"
-                format="dd-MM-y"
-                value={this.state.arrival}
-                onChange={(date) => this.setArrival(date)}
-              />
+  useEffect(() => {
+    let exportString = JSON.stringify(update);
+    ipcRenderer.send("SEND_ROOM_STATE_TO_MAIN", exportString);
+  }, [update]);
+
+  return (
+    <div id="main-container">
+      <Header title="MAIN PANEL" route="/Status" routeName="Overview" />
+      <div id="add-delete">
+        <div id="add-room-container">
+          <h2 className="titles">ADD A NEW ROOM TO THE SCHEDULE:</h2>
+          <div className="selection-container">
+            <div className="date-picker">
+              <p>Arrival Date</p>
+              <div>
+                <DatePicker
+                  dayPlaceholder="dd"
+                  monthPlaceholder="mm"
+                  yearPlaceholder="yyyy"
+                  format="dd-MM-y"
+                  value={arrival}
+                  onChange={(date) => setArrival(date)}
+                />
+              </div>
+            </div>
+            <div className="date-picker">
+              <p>Departure Date</p>
+              <div>
+                <DatePicker
+                  dayPlaceholder="dd"
+                  monthPlaceholder="mm"
+                  yearPlaceholder="yyyy"
+                  format="dd-MM-y"
+                  value={departure}
+                  onChange={(date) => setDeparture(date)}
+                />
+              </div>
+            </div>
+            <div className="form-container">
+              <label>Input the room No.:</label>
+              <form className="room-form">
+                <input
+                  className="inputs"
+                  type="text"
+                  value={selectedRoom}
+                  name="selectedRoom"
+                  placeholder="Type in the room"
+                  onChange={(event) => setSelectedRoom(event.target.value)}
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                  }}
+                />
+                <button
+                  className="buttons"
+                  type="button"
+                  value="Calculate"
+                  onClick={async (e) => {
+                    await calculation(e);
+                  }}
+                >
+                  Update
+                </button>
+              </form>
             </div>
           </div>
-          <div className="date-picker">
-            <text>Departure Date</text>
-            <div>
-              <DatePicker
-                dayPlaceholder="dd"
-                monthPlaceholder="mm"
-                yearPlaceholder="yyyy"
-                format="dd-MM-y"
-                value={this.state.departure}
-                onChange={(date) => this.setDeparture(date)}
-              />
-            </div>
-          </div>
-          <form className="room-form">
-            <input
-              type="text"
-              value={this.state.selectedRoom}
-              name="selectedRoom"
-              placeholder="Type in the room"
-              onChange={this.selectRoom}
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            />
-            <button
-              type="button"
-              value="Calculate"
-              onClick={(e) => this.calculation(e)}
-            >
-              Calculate
-            </button>
-          </form>
         </div>
-        <DisplayTomorrow tomorrowChange={this.state.tomorrowsChanges} />
-        <div>
-          <text>{}</text>
+        <div id="delete-display-container">
+          <Delete />
         </div>
       </div>
-    );
-  }
+      <DisplayTomorrow />
+      <ManualOveride />
+    </div>
+  );
 }
 
 export default DateSelect;
 
 // Swal.fire({
 //   title: "Tomorrow",
-//   text: tomorrow[1][0],
+//   text: data.r103.sheets[0],
 //   animation: false,
 // });
