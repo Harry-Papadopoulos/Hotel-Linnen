@@ -71,72 +71,62 @@ function DateSelect() {
   }, [update]);
 
   return (
-    <div id="main-container">
-      <Header title="MAIN PANEL" route="/Status" routeName="Overview" />
-      <div id="add-delete">
-        <div id="add-room-container">
-          <h2 className="titles">ADD A NEW ROOM TO THE SCHEDULE:</h2>
-          <div className="selection-container">
-            <div className="date-picker">
-              <p>Arrival Date</p>
-              <div>
-                <DatePicker
-                  dayPlaceholder="dd"
-                  monthPlaceholder="mm"
-                  yearPlaceholder="yyyy"
-                  format="dd-MM-y"
-                  value={arrival}
-                  onChange={(date) => setArrival(date)}
-                />
-              </div>
-            </div>
-            <div className="date-picker">
-              <p>Departure Date</p>
-              <div>
-                <DatePicker
-                  dayPlaceholder="dd"
-                  monthPlaceholder="mm"
-                  yearPlaceholder="yyyy"
-                  format="dd-MM-y"
-                  value={departure}
-                  onChange={(date) => setDeparture(date)}
-                />
-              </div>
-            </div>
-            <div className="form-container">
-              <label>Input the room No.:</label>
-              <form className="room-form">
-                <input
-                  className="inputs"
-                  type="text"
-                  value={selectedRoom}
-                  name="selectedRoom"
-                  placeholder="Type in the room"
-                  onChange={(event) => setSelectedRoom(event.target.value)}
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                  }}
-                />
-                <button
-                  className="buttons"
-                  type="button"
-                  value="Calculate"
-                  onClick={async (e) => {
-                    await calculation(e);
-                  }}
-                >
-                  Update
-                </button>
-              </form>
-            </div>
+    <div id="add-room-container">
+      <h2 className="titles">ADD A NEW ROOM TO THE SCHEDULE:</h2>
+      <div className="selection-container">
+        <div className="date-picker">
+          <p>Arrival Date</p>
+          <div>
+            <DatePicker
+              dayPlaceholder="dd"
+              monthPlaceholder="mm"
+              yearPlaceholder="yyyy"
+              format="dd-MM-y"
+              value={arrival}
+              onChange={(date) => setArrival(date)}
+            />
           </div>
         </div>
-        <div id="delete-display-container">
-          <Delete />
+        <div className="date-picker">
+          <p>Departure Date</p>
+          <div>
+            <DatePicker
+              dayPlaceholder="dd"
+              monthPlaceholder="mm"
+              yearPlaceholder="yyyy"
+              format="dd-MM-y"
+              value={departure}
+              onChange={(date) => setDeparture(date)}
+            />
+          </div>
+        </div>
+        <div className="form-container">
+          <label>Input the room No.:</label>
+          <form className="room-form">
+            <input
+              className="inputs"
+              type="text"
+              value={selectedRoom}
+              name="selectedRoom"
+              placeholder="Type in the room"
+              onChange={(event) => setSelectedRoom(event.target.value)}
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            />
+            <button
+              className="buttons"
+              type="button"
+              value="Calculate"
+              onClick={async (e) => {
+                await calculation(e);
+              }}
+            >
+              Update
+            </button>
+          </form>
         </div>
       </div>
-      <DisplayTomorrow />
-      <ManualOveride />
     </div>
   );
 }

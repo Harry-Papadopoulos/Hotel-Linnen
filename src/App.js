@@ -1,6 +1,7 @@
 import "./App.css";
 import React from "react";
 import DateSelect from "./components/dateSelect";
+import MainPanel from "./components/MainPanel";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Status from "./components/Status";
 
@@ -12,7 +13,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <DateSelect />
+            <MainPanel />
           </Route>
           <Route path="/Status">
             <Status />
