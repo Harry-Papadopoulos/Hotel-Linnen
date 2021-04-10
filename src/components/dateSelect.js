@@ -3,11 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateAction, initialLoadAction } from "../assets/globalState";
 import DatePicker from "react-date-picker";
-import Header from "./Header";
-import Delete from "./DeleteForm";
-import DisplayTomorrow from "./displayTomorrow";
-import ManualOveride from "./ManualOveride";
-
 import Swal from "sweetalert2";
 import {
   stayLength,
@@ -132,9 +127,3 @@ function DateSelect() {
 }
 
 export default DateSelect;
-
-// Swal.fire({
-//   title: "Tomorrow",
-//   text: data.r103.sheets[0],
-//   animation: false,
-// });
