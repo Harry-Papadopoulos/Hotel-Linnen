@@ -38,7 +38,7 @@ function DateSelect() {
       let room = roomKey(selectedRoom);
 
       await dispatch(updateAndSave(room, linnenChanges)).then(() => {
-        console.log("Schedule Changed");
+        return null;
       });
 
       setSelectedRoom("");

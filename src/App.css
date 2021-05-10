@@ -8,6 +8,17 @@
 
 .buttons {
   background-color: #939eb9;
+  border: 1px solid black;
+  outline: none;
+  height: 22px;
+}
+
+.buttons:hover {
+  opacity: 0.5;
+}
+
+.buttons:active {
+  background-color: green;
 }
 
 .inputs {

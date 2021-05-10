@@ -21,7 +21,7 @@ export default function Delete() {
     if ("101" <= roomToDelete && roomToDelete <= "136") {
       let room = roomKey(roomToDelete);
       await dispatch(deleteFromStore(room)).then(() => {
-        console.log("Schedule Changed");
+        return null;
       });
       setRoomToDelete("");
     } else {

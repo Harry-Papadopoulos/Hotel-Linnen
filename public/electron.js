@@ -3,6 +3,9 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 const fs = require("fs");
 
+// SET ENVIRONMENT
+process.env.NODE_ENV = "production";
+
 let win;
 
 function createWindow() {
@@ -15,6 +18,8 @@ function createWindow() {
       // preload: path.join(__dirname, "preload.js"),
     },
   });
+
+  win.maximize();
 
   win.loadURL(
     isDev

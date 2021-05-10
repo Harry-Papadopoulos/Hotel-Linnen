@@ -22,30 +22,38 @@ export default function ManualOveride() {
   }
 
   async function overideRoom(e) {
-    if ("101" <= roomToHandle && roomToHandle <= "136") {
+    if ("101" <= roomToHandle && roomToHandle <= "136" && linnenType) {
       let room = roomKey(roomToHandle);
       await dispatch(addToStore(room, changes)).then(() => {
-        console.log("Schedule Changed");
+        return null;
       });
       setRoomToHandle("");
     } else {
       Swal.fire({
-        title: "Invalid Room Number",
-        text: "Please insert a correct room number.",
+        title: "Invalid Room or Linnen Type",
+        text: "Please check the room number or linnen type.",
         animation: false,
       });
     }
   }
 
   async function insertChange() {
-    let date = dateToOveride.toDateString();
-    await setChanges(() => {
-      let newChanges = changes;
-      return {
-        ...newChanges,
-        [linnenType]: [...newChanges[linnenType], date],
-      };
-    });
+    if ("101" <= roomToHandle && roomToHandle <= "136" && linnenType) {
+      let date = dateToOveride.toDateString();
+      await setChanges(() => {
+        let newChanges = changes;
+        return {
+          ...newChanges,
+          [linnenType]: [...newChanges[linnenType], date],
+        };
+      });
+    } else {
+      Swal.fire({
+        title: "Invalid Room or Linnen Type",
+        text: "Please check the room number or linnen type.",
+        animation: false,
+      });
+    }
   }
 
   return (
