@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { makeStatusStrings } from "../assets/logic";
+import { makeStatusStrings } from "../Assets/Logic";
 import Header from "./Header";
 
 export default function Status() {
@@ -14,18 +14,22 @@ export default function Status() {
   }, [update]);
 
   return (
-    <div>
+    <div className="main-container">
       <Header
-        title="STATUS OF ALL ROOM LINNEN CHANGES"
-        route="/"
-        routeName="Main Panel"
+        title="STATUS OF ALL ROOMS"
+        route1="/"
+        route2="NextSixDays"
+        routeName1="Main Panel"
+        routeName2="Next Days"
       />
       <div id="status-content">
-        <h2 className="titles">ROOM STATUS:</h2>
         <div>
           <div id="all-rooms-display">
             {roomList.map((item) => (
-              <p>{item}</p>
+              <p>
+                <span>{item[0]}:</span> <span>Sheets - </span>
+                {item[1]} , <span>Towels - </span> {item[2]}
+              </p>
             ))}
           </div>
         </div>

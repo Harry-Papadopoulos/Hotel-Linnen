@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAction } from "../assets/globalState";
+import { deleteAction } from "../Assets/GlobalState";
 import Swal from "sweetalert2";
-import { roomKey } from "../assets/logic";
+import { roomKey } from "../Assets/Logic";
 
 export default function Delete() {
   const update = useSelector((state) => state.update);

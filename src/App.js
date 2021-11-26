@@ -1,9 +1,11 @@
 import "./App.css";
+import "./Responsive.css";
 import React from "react";
-import DateSelect from "./components/dateSelect";
-import MainPanel from "./components/MainPanel";
+import DateSelect from "./Components/DateSelect";
+import MainPanel from "./Components/MainPanel";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import Status from "./components/Status";
+import NextSixDays from "./Components/NextSixDays";
+import Status from "./Components/Status";
 
 const electron = window.require("electron");
 
@@ -14,6 +16,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <MainPanel />
+          </Route>
+          <Route path="/NextSixDays">
+            <NextSixDays />
           </Route>
           <Route path="/Status">
             <Status />

@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAction, initialLoadAction } from "../assets/globalState";
+import { updateAction, initialLoadAction } from "../Assets/GlobalState";
 import DatePicker from "react-date-picker";
 import Swal from "sweetalert2";
 import {
@@ -10,7 +10,7 @@ import {
   changeTowels,
   roomKey,
   changes,
-} from "../assets/logic";
+} from "../Assets/Logic";
 
 const { ipcRenderer } = window.require("electron");
 
@@ -34,7 +34,7 @@ function DateSelect() {
       let stay = stayLength(arrival, departure);
       let sheets = changeSheets(arrival, stay);
       let towels = changeTowels(arrival, stay);
-      let linnenChanges = changes(sheets, towels);
+      let linnenChanges = changes(sheets, towels, departure.getTime());
       let room = roomKey(selectedRoom);
 
       await dispatch(updateAndSave(room, linnenChanges)).then(() => {

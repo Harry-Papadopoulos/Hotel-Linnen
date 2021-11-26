@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { nextDaysSheetChanges, nextDaysTowelChanges } from "../assets/logic";
+import { nextDaysSheetChanges, nextDaysTowelChanges } from "../Assets/Logic";
 
 export default function DisplayTomorrow() {
   const update = useSelector((state) => state.update);

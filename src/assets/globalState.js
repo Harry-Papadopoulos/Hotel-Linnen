@@ -1,4 +1,4 @@
-import hotelRooms from "./hotelRooms";
+import hotelRooms from "./HotelRooms";
 import { combineReducers } from "redux";
 
 const initialState = {};

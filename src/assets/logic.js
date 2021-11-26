@@ -1,6 +1,3 @@
-// let arrival = new Date(2021, 6, 25);
-// let departure = new Date(2021, 6, 8);
-
 import Swal from "sweetalert2";
 
 //Calculate the length of the stay in days
@@ -45,28 +42,13 @@ function changeSheets(arrival, days) {
     dates.push(addDays(arrival, 8));
     dates.push(addDays(arrival, 11));
   } else {
-    for (let i = 4; i < days.length; i = i + 4) {
+    for (let i = 4; i < days; i = i + 4) {
+      console.log(i);
       dates.push(addDays(arrival, i));
     }
   }
   return dates;
 }
-
-// } else if (days % 3 === 1) {
-//   if (days - 4 === 0) {
-//     dates.push(addDays(arrival, 2));
-//   } else {
-//     let firstDays = days - 4;
-//     for (let i = 3; i <= firstDays; i = i + 3) {
-//       dates.push(addDays(arrival, i));
-//     }
-//     dates.push(addDays(arrival, days - 2));
-//   }
-// } else {
-//   for (let i = 3; i < days; i = i + 3) {
-//     dates.push(addDays(arrival, i));
-//   }
-// }
 
 // Calculate which days the towels need to be changed
 // arrival = the arrival date, days = how long the stay is
@@ -82,14 +64,14 @@ function changeTowels(arrival, days) {
   return dates;
 }
 
-// Return the list key from the room number chosen
+// Return the object key from the room number chosen
 function roomKey(roomNumber) {
   return "R" + roomNumber;
 }
 
 // make the changes object for each room
-function changes(sheets, towels) {
-  return { sheets: sheets, towels: towels };
+function changes(sheets, towels, departure) {
+  return { sheets: sheets, towels: towels, departure: departure };
 }
 
 // Calculate the next days sheet changes.
@@ -122,6 +104,65 @@ function nextDaysTowelChanges(roomsList) {
   return roomsForTowelChange.sort().join(", ");
 }
 
+//Next six days sheet changes
+function sheetsNextSixDays(roomsList) {
+  let sixDays = [];
+  for (let i = 1; i < 7; i++) {
+    let tomorrow = addDays(new Date(), i);
+    let roomsForSheetChange = [];
+    for (let room in roomsList) {
+      for (let j = 0; j < roomsList[room].sheets.length; j++) {
+        if (tomorrow === roomsList[room].sheets[j]) {
+          roomsForSheetChange.push(room);
+          continue;
+        }
+      }
+    }
+    sixDays.push(roomsForSheetChange.sort().join(", "));
+  }
+  return sixDays;
+}
+
+//Next six days towel changes
+function towelsNextSixDays(roomsList) {
+  let sixDays = [];
+  for (let i = 1; i < 7; i++) {
+    let tomorrow = addDays(new Date(), i);
+    let roomsForTowelChange = [];
+    for (let room in roomsList) {
+      for (let j = 0; j < roomsList[room].towels.length; j++) {
+        if (tomorrow === roomsList[room].towels[j]) {
+          roomsForTowelChange.push(room);
+          continue;
+        }
+      }
+    }
+    sixDays.push(roomsForTowelChange.sort().join(", "));
+  }
+  return sixDays;
+}
+
+//Make array for next six days
+function nextSixDays() {
+  let daysArray = [];
+  for (let i = 1; i < 7; i++) {
+    daysArray.push(addDays(new Date(), i));
+  }
+  return daysArray;
+}
+
+//Make the display for the following six days
+function displayForNextDays(roomsList) {
+  let titles = nextSixDays();
+  let sheets = sheetsNextSixDays(roomsList);
+  let towels = towelsNextSixDays(roomsList);
+  let displayArray = [];
+  for (let i = 0; i < 6; i++) {
+    displayArray.push([titles[i], sheets[i], towels[i]]);
+  }
+  return displayArray;
+}
+
 // Sort rooms in order for them to be displayed in the status screen
 function sortRooms(rooms) {
   return Object.keys(rooms)
@@ -131,46 +172,6 @@ function sortRooms(rooms) {
       return result;
     }, {});
 }
-
-//Turn the sheet and towel dates into strings
-function makeDatestoString(theArray) {
-  return theArray.join(", ");
-}
-
-function makeStatusStrings(rooms) {
-  let roomsObject = sortRooms(rooms);
-  let displayArray = [];
-  for (let room in roomsObject) {
-    let sheetsString = makeDatestoString(roomsObject[room].sheets);
-    let towelsString = makeDatestoString(roomsObject[room].towels);
-    displayArray.push(
-      `${room}: SHEETS - ${sheetsString} / TOWELS - ${towelsString}`
-    );
-  }
-  return displayArray;
-}
-
-// // Calculate which changes are to be made the next day.
-// function tomorrowsChanges(rooms) {
-//   let tomorrow = addDays(new Date(), 1);
-//   let sheets = [];
-//   let towels = [];
-//   let roomsArray = Object.entries(rooms);
-
-//   for (let room = 0; room < roomsArray.length; room++) {
-//     for (let i = 0; i < roomsArray[room][1][0].length; i++) {
-//       if (tomorrow === roomsArray[room][1][0][i]) {
-//         sheets.push(roomsArray[room][0]);
-//       }
-//     }
-//     for (let j = 0; j < roomsArray[room][1][1].length; j++) {
-//       if (tomorrow === roomsArray[room][1][1][j]) {
-//         towels.push(roomsArray[room][0]);
-//       }
-//     }
-//   }
-//   return [sheets, towels];
-// }
 
 // make the string for tommorow's changes
 function tomorrowString(rooms) {
@@ -189,6 +190,22 @@ function tomorrowString(rooms) {
   return [sheetsString, towelsString];
 }
 
+//Turn the sheet and towel dates into strings
+function makeDatestoString(theArray) {
+  return theArray.join(" // ");
+}
+
+function makeStatusStrings(rooms) {
+  let roomsObject = sortRooms(rooms);
+  let displayArray = [];
+  for (let room in roomsObject) {
+    let sheetsString = makeDatestoString(roomsObject[room].sheets);
+    let towelsString = makeDatestoString(roomsObject[room].towels);
+    displayArray.push([room, sheetsString, towelsString]);
+  }
+  return displayArray;
+}
+
 export {
   stayLength,
   changeSheets,
@@ -198,5 +215,6 @@ export {
   tomorrowString,
   nextDaysSheetChanges,
   nextDaysTowelChanges,
+  displayForNextDays,
   makeStatusStrings,
 };

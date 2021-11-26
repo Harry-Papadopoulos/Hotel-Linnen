@@ -35,6 +35,11 @@ app.whenReady().then(() => {
       console.log(err);
     } else {
       let rooms = JSON.parse(data);
+      for (let room in rooms) {
+        if (rooms[room].departure < new Date().getTime()) {
+          delete rooms[room];
+        }
+      }
       win.webContents.on("dom-ready", () => {
         win.webContents.send("SEND_ROOM_STATE_TO_RENDERER", rooms);
       });

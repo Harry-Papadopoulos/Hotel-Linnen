@@ -1,104 +1,124 @@
 {
-  "name": "hotel-linnen",
-  "version": "0.1.0",
-  "description": "An app for calculating when sheets and towels should be changed in each room.",
-  "author": "Harry",
-  "main": "public/electron.js",
-  "build": {
-    "appID": "display.menu"
-  },
-  "homepage": "./",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.1",
-    "electron-compile": "^6.4.4",
-    "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "luxon": "^1.26.0",
-    "node-notifier": "^9.0.1",
-    "react": "^17.0.1",
-    "react-calendar": "^3.3.1",
-    "react-date-picker": "^8.0.7",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "sweetalert2": "^10.15.6",
-    "web-vitals": "^1.1.0"
-  },
-  "scripts": {
-    "react-start": "react-scripts start",
-    "react-build": "react-scripts build",
-    "react-test": "react-scripts test",
-    "react-eject": "react-scripts eject",
-    "electron-build": "electron-builder",
-    "build": "npm run react-build && npm run electron-build",
-    "start": "electron-forge start",
-    "package-win": "electron-packager . Linnen --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/icons/win/towels.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"hotel-linnen\"",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "cross-env": "^7.0.3",
-    "electron-builder": "^22.11.1",
-    "electron-forge": "^5.2.4",
-    "electron-packager": "^15.2.0",
-    "electron-prebuilt-compile": "8.2.0"
-  },
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
+    "name": "hotel-linnen",
+    "version": "0.1.0",
+    "description": "An app for calculating when sheets and towels should be changed in each room.",
+    "author": "Harry",
+    "main": "public/electron.js",
+    "build": {
+        "appID": "display.menu"
+    },
+    "homepage": "./",
+    "dependencies": {
+        "@testing-library/jest-dom": "^5.11.9",
+        "@testing-library/react": "^11.2.5",
+        "@testing-library/user-event": "^12.8.1",
+        "electron-compile": "^6.4.4",
+        "electron-is-dev": "^2.0.0",
+        "electron-squirrel-startup": "^1.0.0",
+        "luxon": "^1.26.0",
+        "node-notifier": "^9.0.1",
+        "react": "^17.0.1",
+        "react-calendar": "^3.3.1",
+        "react-date-picker": "^8.0.7",
+        "react-dom": "^17.0.1",
+        "react-redux": "^7.2.3",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "4.0.3",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "sweetalert2": "^10.15.6",
+        "web-vitals": "^1.1.0"
+    },
+    "scripts": {
+        "react-start": "react-scripts start",
+        "react-build": "react-scripts build",
+        "react-test": "react-scripts test",
+        "react-eject": "react-scripts eject",
+        "electron-build": "electron-builder",
+        "build": "npm run react-build && npm run electron-build",
+        "start": "concurrently \"cross-env BROWSER=none npm run react-start \" \"wait-on http://localhost:3000 && electron .\"",
+        "package-win": "electron-packager . Linnen --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/icons/win/towels.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"hotel-linnen\"",
+        "package": "electron-forge package",
+        "make": "electron-forge make"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
         ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "hotel_linnen"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "hotellinnen"
-      }
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^6.0.0-beta.54",
+        "@electron-forge/maker-appx": "^6.0.0-beta.54",
+        "@electron-forge/maker-deb": "^6.0.0-beta.54",
+        "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+        "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+        "@electron-forge/plugin-compile": "^6.0.0-beta.54",
+        "@electron-forge/publisher-github": "^6.0.0-beta.54",
+        "babel-plugin-transform-async-to-generator": "^6.24.1",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
+        "cross-env": "^7.0.3",
+        "electron-prebuilt-compile": "^8.2.0"
+    },
+    "config": {
+        "forge": {
+            "packagerConfig": {},
+            "makers": [
+                {
+                    "name": "@electron-forge/maker-deb",
+                    "config": {
+                        "name": "hotel_linnen"
+                    },
+                    "platforms": null
+                },
+                {
+                    "name": "@electron-forge/maker-rpm",
+                    "platforms": null,
+                    "config": {
+                        "name": "hotel_linnen"
+                    }
+                },
+                {
+                    "name": "@electron-forge/maker-squirrel",
+                    "config": {
+                        "name": "hotel_linnen"
+                    },
+                    "platforms": null
+                },
+                {
+                    "name": "@electron-forge/maker-appx",
+                    "config": {
+                        "packageName": "",
+                        "name": "hotellinnen"
+                    },
+                    "platforms": null
+                }
+            ],
+            "publishers": [
+                {
+                    "config": {
+                        "repository": {
+                            "name": "",
+                            "owner": ""
+                        }
+                    },
+                    "name": "@electron-forge/publisher-github",
+                    "platforms": null
+                }
+            ]
+        }
     }
-  }
 }
